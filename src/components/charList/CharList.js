@@ -60,14 +60,16 @@ class CharList extends Component {
 
     render() {
         const {charList, error, loading, newItemLoading, offset, charsEnded} = this.state,
-              {onSelectedChar} = this.props;
+              {onSelectedChar, selectedChar} = this.props;
         const chars = charList.map(item => {
             return (
                 <Char
+                    clazz={selectedChar === item.id ? 'char__item char__item_selected' : 'char__item'}
                     key={item.id}
                     thumbnail={item.thumbnail}
                     name={item.name}
-                    onSelectedChar={() => onSelectedChar(item.id)}/>
+                    onSelectedChar={() => onSelectedChar(item.id)}
+                    ref={this.setRef}/>
             )
         });
 

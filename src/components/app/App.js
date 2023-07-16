@@ -18,14 +18,19 @@ class App extends Component {
     }
 
     render() {
+        const {selectedChar} = this.state;
+
         return (
             <div className="app">
                 <AppHeader/>
                 <main>
                     <RandomChar/>
                     <div className="char__content">
-                        <CharList onSelectedChar={this.onSelectedChar}/>
-                        <CharInfo charId={this.state.selectedChar}/>
+                        <CharList
+                            onSelectedChar={this.onSelectedChar} 
+                            selectedChar={selectedChar}
+                        />
+                        <CharInfo charId={selectedChar}/>
                     </div>
                     <img className="bg-decoration" src={decoration} alt="vision"/>
                 </main>
