@@ -1,31 +1,23 @@
+import { useHttp } from "../hooks/http.hook";
 
+const useMarvelService = () => {
+    const {loading, request, error, clearError} = useHttp();
 
-class MarvelService {
-    _apiBase = 'https://gateway.marvel.com:443/v1/public/';
-    _apiKey = 'apikey=d2d90ae6492c1e53c88b351cb4eaa738';
-    _baseOffset = 210;
+    const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
+    const _apiKey = 'apikey=eb8aed350156aa4586437ed9f36552cf';
+    const _baseOffset = 210;
 
-    getResourse = async (url) => {
-        let res = await fetch(url);
-
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status ${res.status}`);
-        }
-
-        return await res.json();
+    const getAllCharacters = async (offset = _baseOffset) => {
+        const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
+        return res.data.results.map(_transformCharacter);
     }
 
-    getAllCharacters = async (offset = this._baseOffset) => {
-        const res = await this.getResourse(`${this._apiBase}characters?limit=9&offset=${offset}&${this._apiKey}`);
-        return res.data.results.map(this._transformCharacter);
+    const getCharacter = async (id) => {
+        const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
+        return _transformCharacter(res.data.results[0]);
     }
 
-    getCharacter = async (id) => {
-        const res = await this.getResourse(`${this._apiBase}characters/${id}?${this._apiKey}`);
-        return this._transformCharacter(res.data.results[0]);
-    }
-
-    _transformCharacter = (character) => {
+    const _transformCharacter = (character) => {
         let descriptionSliced = character.description.slice(0, 150);
         if (descriptionSliced.length < character.description.length) {
             descriptionSliced += '...';
@@ -40,6 +32,8 @@ class MarvelService {
             comics: character.comics.items   
         }
     }
+
+    return {loading, error, getAllCharacters, getCharacter, clearError};
 }
 
-export default MarvelService;
+export default useMarvelService;
