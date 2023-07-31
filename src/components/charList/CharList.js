@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import './charList.scss';
 import Spinner from '../spinner/Spinner';
 import Error from '../error/Error';
 import useMarvelService from '../../services/MarvelService';
-import Char from '../char/Char';
 
 const CharList = ({onSelectedChar, selectedChar}) => {
 
@@ -20,6 +20,7 @@ const CharList = ({onSelectedChar, selectedChar}) => {
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
+        console.log('update');
         getAllCharacters(offset)
             .then(processingCharList)
     }
@@ -30,21 +31,40 @@ const CharList = ({onSelectedChar, selectedChar}) => {
             ended = true;
         }
 
-        setCharList(charList => [...charList, ...newCharList]);
+        setCharList([...charList, ...newCharList]);
         setNewItemLoading(newItemLoading => false);
         setOffset(offset => offset + 9);
         setCharsEnded(charsEnded => ended);
     }
-    
-    const chars = charList.map(item => {
+
+    const chars = charList.map((item, index) => {
+        let imgStyle = {'objectFit': 'cover'};
+        if (item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg") {
+            imgStyle = {'objectFit': 'unset'};
+        }
+        const clazz = selectedChar === item.id ? 'char__item char__item_selected' : 'char__item';
+
         return (
-            <Char
-                clazz={selectedChar === item.id ? 'char__item char__item_selected' : 'char__item'}
-                key={item.id}
-                thumbnail={item.thumbnail}
-                name={item.name}
-                onSelectedChar={() => onSelectedChar(item.id)}
-            />
+            <CSSTransition 
+                key={index} 
+                timeout={500} 
+                classNames="char__item">
+                <li
+                    tabIndex={0} 
+                    onClick={() => {
+                        onSelectedChar(item.id);
+                    }}
+                    onKeyPress={(e) => {
+                        e.preventDefault();
+                        if (e.key === ' ' || e.key === "Enter") {
+                            onSelectedChar(item.id);
+                        }
+                    }} 
+                    className={clazz}>
+                    <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
+                    <div className="char__name">{item.name}</div>
+                </li>
+            </CSSTransition>
         )
     });
 
@@ -56,7 +76,9 @@ const CharList = ({onSelectedChar, selectedChar}) => {
             {errorMessage}
             {spinner}
             <ul className="char__grid">
-                {chars}
+                <TransitionGroup component={null}>
+                    {chars}
+                </TransitionGroup>
             </ul>
             <button
                 disabled={newItemLoading}
