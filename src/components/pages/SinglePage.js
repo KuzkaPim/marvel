@@ -1,11 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import Page404 from './404';
 import AppBanner from '../appBanner/AppBanner';
-import './singleComicPage.scss';
 
 const SinglePage = ({Component, dataType}) => {
     const {id} = useParams(),

@@ -47,19 +47,19 @@ const CharList = ({onSelectedChar, selectedChar}) => {
         return (
             <CSSTransition 
                 key={index} 
-                timeout={500} 
+                timeout={500}
                 classNames="char__item">
                 <li
                     tabIndex={0} 
                     onClick={() => {
                         onSelectedChar(item.id);
                     }}
-                    onKeyPress={(e) => {
-                        e.preventDefault();
-                        if (e.key === ' ' || e.key === "Enter") {
-                            onSelectedChar(item.id);
-                        }
-                    }} 
+                    // onKeyPress={(e) => {
+                    //     e.preventDefault();
+                    //     if (e.key === ' ' || e.key === "Enter") {
+                    //         onSelectedChar(item.id);
+                    //     }
+                    // }} 
                     className={clazz}>
                     <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
