@@ -34,9 +34,11 @@ const useMarvelService = () => {
     }
 
     const _transformCharacter = (character) => {
+        const descriptionSliced = character.description.length > 140 ? character.description.slice(0, 140) + '...' : character.description;
+
         return {
             name: character.name,
-            description: character.description || 'There is no description for this character',
+            description: character.description ? descriptionSliced : 'There is no description for this character',
             thumbnail: character.thumbnail.path + '.' + character.thumbnail.extension,
             homepage: character.urls[0].url,
             wiki: character.urls[1].url,

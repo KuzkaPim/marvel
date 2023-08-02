@@ -18,10 +18,14 @@ const CharSearch = () => {
     } 
 
     const updateChar = (name) => {
-        clearError();
+        if (name) {
+            clearError();
 
-        getCharacterByName(name)
-            .then(onCharLoaded);
+            getCharacterByName(name)
+                .then(onCharLoaded);
+        } else {
+            setChar(null);
+        }
     }
 
     const errorMessage = error ? <div className="char__search-critical-error"><Error /></div> : null;
@@ -42,10 +46,6 @@ const CharSearch = () => {
                 initialValues = {{
                     charName: ''
                 }}
-                validationSchema = {Yup.object({
-                    charName: Yup.string()
-                            .required('This field is required')
-                })}
                 onSubmit={({charName}) => {
                     updateChar(charName);
                 }}

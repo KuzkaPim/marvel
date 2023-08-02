@@ -67,8 +67,7 @@ const View = ({char}) => {
                     </li>
                 )
             }
-        }) :
-        <div>Для этого персонажа нет комиксов</div>;
+        }) : <div>The character is not in the comics</div>;
 
     return (
         <>
