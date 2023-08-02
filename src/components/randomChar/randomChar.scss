@@ -27,6 +27,17 @@
         font-size: 22px;
         line-height: 29px;
         text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        &:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 20px 15px #fff;
+        }
     }
     &__descr {
         font-size: 14px;

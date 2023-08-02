@@ -54,12 +54,12 @@ const CharList = ({onSelectedChar, selectedChar}) => {
                     onClick={() => {
                         onSelectedChar(item.id);
                     }}
-                    // onKeyPress={(e) => {
-                    //     e.preventDefault();
-                    //     if (e.key === ' ' || e.key === "Enter") {
-                    //         onSelectedChar(item.id);
-                    //     }
-                    // }} 
+                    onKeyPress={(e) => {
+                        e.preventDefault();
+                        if (e.key === ' ' || e.key === "Enter") {
+                            onSelectedChar(item.id);
+                        }
+                    }} 
                     className={clazz}>
                     <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                     <div className="char__name">{item.name}</div>
