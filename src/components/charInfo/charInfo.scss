@@ -12,6 +12,18 @@
             font-size: 22px;
             line-height: 29px;
             text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 200px;
+            &:before {
+                content: '';
+                position: absolute;
+                right: 0;
+                height: 100%;
+                background: #fff;
+                box-shadow: 0 0 20px 25px #fff;
+            }
         }
         .skeleton {
             margin-top: 30px;

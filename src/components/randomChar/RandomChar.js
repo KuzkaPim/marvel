@@ -17,7 +17,7 @@ const RandomChar = () => {
     const updateChar = () => {
         clearError();
         const id = Math.floor(Math.random() * (1011355  - 1009224) + 1009224);
-        getCharacter(1010338)
+        getCharacter(id)
             .then(onCharacterLoaded);
     }
 
